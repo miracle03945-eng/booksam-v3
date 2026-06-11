@@ -320,7 +320,7 @@ const BOOKS = [
   { id: 34, cat: 'elementary', type: '참고서', subject: '영어', area: '검정시험',
     title: 'JET 공식 기출문제집 3/4급',
     author: 'YBM 편집부', price: 10000, originalPrice: 11000, badge: 'best',
-    img: 'https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/S000000451056.jpg',
+    img: 'images/jet-workbook-3-4.jpg',
     publisher: 'YBM', date: '2023.03.01',
     kyoboUrl: 'https://product.kyobobook.co.kr/',
     desc: '역대 JET 3·4급 기출 문제 총망라. 출제 경향 분석 및 실전 연습 완벽 제공.' },
