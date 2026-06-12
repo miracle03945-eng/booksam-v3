@@ -294,6 +294,9 @@
       .hs-prev{left:6px;} .hs-next{right:6px;}
       .hs-arrow{width:36px;height:36px;}
       .hs-dots{right:16px;bottom:14px;}
+      /* 이벤트 슬라이드: SVG 이미지 축소 */
+      .hs-event-visual{flex:none !important;width:100%;justify-content:center;}
+      .hs-event-visual svg{width:160px;height:138px;}
     }
     /* ─── 이벤트 슬라이드 템플릿 ─── */
     .hs-slide--event .hs-inner{justify-content:center;text-align:center;flex-direction:column;align-items:center;gap:0;padding:0 60px;}
@@ -545,7 +548,7 @@
             <button class="hs-btn-o" onclick="location.href='events.html'">자세히 보기</button>
           </div>
         </div>
-        <div class="hs-books" style="flex:0 0 320px;align-items:center;justify-content:center;">
+        <div class="hs-books hs-event-visual" style="flex:0 0 320px;align-items:center;justify-content:center;">
           <svg width="280" height="240" viewBox="0 0 280 240" fill="none" xmlns="http://www.w3.org/2000/svg">
             <!-- 배경 빛 효과 -->
             <ellipse cx="140" cy="200" rx="110" ry="20" fill="rgba(255,215,0,0.12)"/>
