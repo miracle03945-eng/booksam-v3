@@ -336,8 +336,10 @@ const CAT_HERO = {
   '':         { label:'전체 도서',  desc:'북샘의 모든 교재를 한눈에',                   cls:'default' },
 };
 
+// hash 파라미터도 지원 (preview 환경 대응: ?cat= 또는 #cat=)
+const _hashParams = new URLSearchParams(location.hash.replace(/^#/, ''));
 const params    = new URLSearchParams(location.search);
-const currentCat = params.get('cat') || '';
+const currentCat = params.get('cat') || _hashParams.get('cat') || '';
 const initType   = params.get('type') || '';
 const initArea   = params.get('area') || '';
 const initSubject = params.get('subject') || '';
