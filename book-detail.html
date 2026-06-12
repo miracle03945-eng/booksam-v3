@@ -405,7 +405,7 @@ const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 const services = [
   { id:'mp3-stream',    title:'MP3 바로 듣기',    type:'streaming', loginRequired:false },
   { id:'vocab-wizard',  title:'온라인어휘학습기',   type:'vocab',     loginRequired:false },
-  { id:'grammar-bank',  title:'문법예문뱅크',      type:'external',  loginRequired:false },
+  { id:'grammar-bank',  title:'문법예문뱅크',      type:'external',  loginRequired:false, url:'resources.html?tab=study&stab=grammar' },
 ];
 
 // ── 부가자료 데이터 ──
@@ -807,6 +807,10 @@ function useMaterial(mat) {
     const bk = BOOKS.find(b => b.id === parseInt(getParam('id')));
     const id = bk ? bk.id : '';
     location.href = `resources.html?tab=study&stab=vocab&vocaBook=${id}`;
+    return;
+  }
+  if (mat.type === 'external' && mat.url) {
+    location.href = mat.url;
     return;
   }
   showToast(`${mat.title} 다운로드가 시작됩니다.`);
