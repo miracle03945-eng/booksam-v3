@@ -2055,8 +2055,8 @@ body.hero-page .topbar-ytutpr{color:white;background:rgba(255,255,255,.26);borde
 
   /* 자료실 플라이아웃 서브메뉴 */
   .gnb-dropdown .gnb-sub-group{position:relative;}
-  .gnb-subflyout{display:none;position:absolute;left:100%;top:0;background:white;border-top:3px solid var(--red);border-radius:0 0 10px 10px;box-shadow:8px 12px 28px rgba(0,0,0,.13);min-width:160px;z-index:300;padding:4px 0 8px;}
-  .gnb-sub-group:hover .gnb-subflyout{display:block;}
+  .gnb-subflyout{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s,visibility .18s;position:absolute;left:100%;top:0;background:white;border-top:3px solid var(--red);border-radius:0 0 10px 10px;box-shadow:8px 12px 28px rgba(0,0,0,.13);min-width:160px;z-index:300;padding:4px 0 8px;}
+  .gnb-sub-group:hover .gnb-subflyout{opacity:1;visibility:visible;pointer-events:auto;}
   .gnb-flyout-link{display:block;font-size:14px;color:#333;padding:10px 18px;text-decoration:none;border-bottom:1px solid #f5f5f5;transition:color .12s,background .12s;white-space:nowrap;}
   .gnb-flyout-link:last-child{border-bottom:none;}
   .gnb-flyout-link:hover{color:var(--red);background:#fff5f5;}
