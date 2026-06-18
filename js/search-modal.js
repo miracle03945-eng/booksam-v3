@@ -2,11 +2,22 @@
 //  Search Modal  —  search-modal.js
 // ══════════════════════════════════════════════
 
+// 노출할 시리즈 고정 목록
+const SM_SERIES_LIST = [
+  { name: 'Phonics NOW',         cat: 'elementary', match: 'Phonics NOW' },
+  { name: 'Benchmark Reading',   cat: 'elementary', match: 'Benchmark Reading' },
+  { name: 'I Love Reading',      cat: 'middle',     match: 'I Love Reading' },
+  { name: 'I Love Grammar',      cat: 'middle',     match: 'I Love Grammar' },
+  { name: '문제로 풀자 중학영문법', cat: 'middle',     match: '문제로 풀자 중학영문법' },
+  { name: 'Grammar Sharp',       cat: 'high',       match: 'Grammar Sharp' },
+];
+
+// 조건 검색용 카테고리 목록 (하위 호환)
 const SM_SERIES = {
-  elementary: ['Phonics NOW','Benchmark Reading','JET 공식기출문제집','Phonics Land','쓰기에 강한 초등영문법 그래머킹','Grammar POP Plus'],
-  middle:     ['문제로 풀자 중학영문법','중등수학 SOS','Reading Prime','고득점 중학영어듣기 모의고사','Reading Sharp','부스터 보카','Grammar Sharp'],
-  high:       ['BOOSTER','수직상승 어법/구문','초간단 수능영어 문법편','초간단 수능영어 유형편','초간단 수능영어 구문편','ACTIVATOR LISTENING for the TOEFL iBT®','ACTIVATOR READING for the TOEFL iBT®','TOEFL iBT® Codebreaker Reading'],
-  elt:        ['Phonics NOW','GRAMMAR NOW','Sadlier Math','Write Now','Listening Star']
+  elementary: ['Phonics NOW','Benchmark Reading'],
+  middle:     ['I Love Reading','I Love Grammar','문제로 풀자 중학영문법'],
+  high:       ['Grammar Sharp'],
+  elt:        []
 };
 
 const SM_GRADE_GROUPS = [
@@ -196,22 +207,13 @@ function smSwitchSeries(btn, cat) {
 
 function smRenderSeriesGrid(cat) {
   const books = (typeof BOOKS !== 'undefined') ? BOOKS : [];
-  let series = [];
-  if (cat === 'all') {
-    const seen = new Set();
-    Object.entries(SM_SERIES).forEach(([c, names]) => names.forEach(n => {
-      if (!seen.has(n)) { seen.add(n); series.push({name: n, cat: c}); }
-    }));
-  } else {
-    series = (SM_SERIES[cat] || []).map(n => ({name: n, cat}));
-  }
-
+  const list = cat === 'all' ? SM_SERIES_LIST : SM_SERIES_LIST.filter(s => s.cat === cat);
   const catLabel = {elementary:'초등', middle:'중학', high:'고등', elt:'ELT'};
 
-  document.getElementById('smSeriesGrid').innerHTML = series.map(s => {
-    const matched = books.filter(b => b.title.includes(s.name));
-    const imgs = matched.slice(0, 3).map(b =>
-      b.img ? `<img src="${b.img}" alt="${b.title}" onerror="this.style.display='none'">` : ''
+  document.getElementById('smSeriesGrid').innerHTML = list.map(s => {
+    const matched = books.filter(b => b.title.includes(s.match));
+    const imgs = matched.filter(b => b.img).slice(0, 4).map(b =>
+      `<img src="${b.img}" alt="${b.title}" onerror="this.style.display='none'">`
     ).join('');
     const label = catLabel[s.cat] || '';
     return `
