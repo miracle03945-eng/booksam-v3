@@ -1,10 +1,99 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>마이페이지 - 북샘</title>
+  <title>마이페이지 - YBM북스</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+  .mypage-wrap{background:#f5f6f8;min-height:calc(100vh - 180px);padding-bottom:60px;}
+  .mypage-container{max-width:1200px;margin:0 auto;padding:28px 20px 60px;}
+
+  /* ── 탭 메뉴 ── */
+  .mp-tabs{display:flex;border:1px solid #e0e0e0;border-radius:5px;overflow:hidden;background:white;margin-bottom:14px;}
+  .mp-tab{flex:1;text-align:center;padding:14px 6px;font-size:13px;font-weight:600;color:#444;text-decoration:none;border-right:1px solid #e0e0e0;transition:background .15s;white-space:nowrap;}
+  .mp-tab:last-child{border-right:none;}
+  .mp-tab.active{background:#c0392b;color:white;}
+  .mp-tab:not(.active):hover{background:#f5f5f5;color:#c0392b;}
+
+  /* ── 환영 메시지 ── */
+  .mp-welcome{background:white;border:1px solid #e0e0e0;border-radius:6px;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+  .mp-welcome-left{display:flex;align-items:center;gap:12px;}
+  .mp-badge{background:#1a2e44;color:white;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap;}
+  .mp-welcome-name{font-size:18px;font-weight:700;color:#1a1a1a;}
+  .mp-welcome-link{font-size:13px;color:#555;text-decoration:none;font-weight:600;}
+  .mp-welcome-link:hover{color:#c0392b;text-decoration:underline;}
+
+  /* ── 2열 그리드 ── */
+  .mp-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+
+  /* ── 카드 공통 ── */
+  .mp-card{background:white;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+  .mp-card-full{margin-bottom:14px;}
+  .mp-card-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid #f0f0f0;}
+  .mp-card-title{font-size:15px;font-weight:700;color:#1a1a1a;}
+  .mp-card-plus{width:28px;height:28px;background:#1a2e44;color:white;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:18px;font-weight:300;text-decoration:none;line-height:1;flex-shrink:0;transition:background .15s;}
+  .mp-card-plus:hover{background:#0d1b2a;}
+
+  /* ── 주문/장바구니 요약 ── */
+  .mp-summary-body{padding:18px 20px;}
+  .mp-point-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid #f0f0f0;}
+  .mp-point-label{font-size:14px;font-weight:700;color:#333;}
+  .mp-point-badge{background:#1a2e44;color:white;font-size:12px;font-weight:700;padding:3px 10px;border-radius:12px;}
+  .mp-gift-btn{margin-left:auto;background:#1a2e44;color:white;border:none;padding:7px 15px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s;display:flex;align-items:center;gap:4px;}
+  .mp-gift-btn:hover{background:#0d1b2a;}
+  .mp-summary-items{display:flex;gap:10px;}
+  .mp-summary-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;padding:14px 8px;border-radius:6px;border:1px solid #f0f0f0;transition:all .15s;background:#fafafa;}
+  .mp-summary-item:hover{border-color:#c0392b;background:#fff8f7;}
+  .mp-summary-icon{color:#666;display:flex;align-items:center;justify-content:center;}
+  .mp-summary-label{font-size:13px;font-weight:700;color:#333;}
+  .mp-summary-count{font-size:12px;color:#888;}
+
+  /* ── 공지사항 ── */
+  .mp-notice-list{list-style:none;margin:0;padding:0;}
+  .mp-notice-item{display:flex;align-items:center;gap:10px;padding:12px 20px;border-bottom:1px solid #f8f8f8;font-size:13px;}
+  .mp-notice-item:last-child{border-bottom:none;}
+  .mp-notice-badge{font-size:11px;font-weight:700;color:#666;border:1px solid #ccc;padding:2px 7px;border-radius:3px;white-space:nowrap;flex-shrink:0;}
+  .mp-notice-title{flex:1;color:#333;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .mp-notice-title:hover{color:#c0392b;}
+  .mp-notice-date{font-size:12px;color:#bbb;white-space:nowrap;flex-shrink:0;}
+
+  /* ── 관심 교재 빈 상태 ── */
+  .mp-empty{padding:40px 20px;text-align:center;color:#aaa;font-size:14px;}
+  .mp-empty-icon{color:#c0392b;margin-right:4px;}
+  .mp-fav-grid{display:flex;flex-wrap:wrap;gap:16px;padding:20px;}
+  .mp-fav-card{width:100px;text-align:center;cursor:pointer;text-decoration:none;}
+  .mp-fav-card:hover .mp-fav-img{box-shadow:0 4px 12px rgba(0,0,0,.15);}
+  .mp-fav-img{width:100px;height:130px;object-fit:cover;border-radius:4px;border:1px solid #e0e0e0;display:block;margin-bottom:6px;}
+  .mp-fav-title{font-size:12px;color:#333;font-weight:600;line-height:1.3;word-break:break-all;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+
+  /* ── 자료 목록 공통 ── */
+  .mp-mat-list{list-style:none;margin:0;padding:0;}
+  .mp-mat-item{display:flex;align-items:center;gap:8px;padding:10px 20px;border-bottom:1px solid #f8f8f8;font-size:13px;}
+  .mp-mat-item:last-child{border-bottom:none;}
+  .mp-mat-badge{font-size:10px;font-weight:700;color:white;padding:2px 6px;border-radius:3px;flex-shrink:0;text-transform:uppercase;min-width:30px;text-align:center;}
+  .mp-mat-badge.pdf{background:#c0392b;}
+  .mp-mat-badge.xlsx{background:#217346;}
+  .mp-mat-badge.zip{background:#888;}
+  .mp-mat-badge.created{background:#1a2e44;}
+  .mp-mat-title{flex:1;color:#333;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .mp-mat-source{font-size:11px;color:#bbb;white-space:nowrap;max-width:120px;overflow:hidden;text-overflow:ellipsis;flex-shrink:0;}
+  .mp-mat-actions{display:flex;gap:3px;flex-shrink:0;}
+  .mp-mat-btn{width:26px;height:26px;border:1px solid #e8e8e8;border-radius:4px;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#999;transition:all .15s;padding:0;}
+  .mp-mat-btn:hover{border-color:#c0392b;color:#c0392b;}
+
+  /* ── 반응형 ── */
+  @media(max-width:900px){
+    .mp-row{grid-template-columns:1fr;}
+    .mp-tabs{flex-wrap:wrap;}
+    .mp-tab{flex:0 0 auto;min-width:33.33%;border-bottom:1px solid #e0e0e0;}
+  }
+  @media(max-width:480px){
+    .mypage-container{padding:12px;}
+    .mp-tab{min-width:50%;}
+    .mp-welcome-name{font-size:15px;}
+  }
+  </style>
 </head>
 <body>
 
@@ -155,7 +244,6 @@
       <a href="https://my-first-app-drab-one.vercel.app/" target="_blank" class="gnb-toeic-btn">Y튜터 | 강사 전용 사이트 <span>↗</span></a>
     </div>
     <div class="gnb-util-right">
-      
       <a href="login.html" class="gnb-util-link gnb-login-link">로그인</a>
       <a href="login.html" class="gnb-util-link gnb-join-link">회원가입</a>
       <a href="customer.html" class="gnb-util-link">고객센터</a>
@@ -166,118 +254,109 @@
   </div>
 </nav>
 
-<div class="page-hero default" style="padding:24px 40px;">
-  <div class="page-hero-inner">
-    <h1 class="page-hero-title">👤 마이페이지</h1>
-    <p class="page-hero-desc">주문 내역, 관심 교재, 개인정보를 관리하세요</p>
-  </div>
-</div>
+<!-- ===================== MYPAGE CONTENT ===================== -->
+<div class="mypage-wrap">
+  <div class="mypage-container">
 
-<div class="container" style="padding-top:28px;padding-bottom:80px;">
-  <div class="cs-layout">
-
-    <nav class="cs-nav">
-      <!-- 유저 요약 -->
-      <div style="padding:18px 16px;border-bottom:1px solid var(--bg2);text-align:center;">
-        <div style="width:52px;height:52px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;color:white;margin:0 auto 10px;">👤</div>
-        <div style="font-weight:700;font-size:14px;" id="userName">홍길동</div>
-        <div style="font-size:12px;color:var(--muted);" id="userEmail">user@email.com</div>
-        <div style="display:flex;gap:6px;justify-content:center;margin-top:12px;">
-          <div style="text-align:center;flex:1;background:var(--bg);border-radius:var(--radius);padding:8px 4px;border:1px solid var(--border);">
-            <div style="font-size:15px;font-weight:800;color:var(--red);">3</div>
-            <div style="font-size:10px;color:var(--muted);">주문</div>
-          </div>
-          <div style="text-align:center;flex:1;background:var(--bg);border-radius:var(--radius);padding:8px 4px;border:1px solid var(--border);">
-            <div style="font-size:15px;font-weight:800;color:var(--red);" id="wishCount">0</div>
-            <div style="font-size:10px;color:var(--muted);">관심</div>
-          </div>
-          <div style="text-align:center;flex:1;background:var(--bg);border-radius:var(--radius);padding:8px 4px;border:1px solid var(--border);">
-            <div style="font-size:15px;font-weight:800;color:var(--orange);">500</div>
-            <div style="font-size:10px;color:var(--muted);">P</div>
-          </div>
-        </div>
-      </div>
-      <div class="cs-nav-group">
-        <div class="cs-nav-title">쇼핑</div>
-        <a href="#" class="cs-nav-link" data-tab="orders"  onclick="switchTab('orders',this);return false;">📦 주문 내역</a>
-        <a href="#" class="cs-nav-link" data-tab="wish"    onclick="switchTab('wish',this);return false;">❤️ 관심 교재</a>
-        <a href="#" class="cs-nav-link" data-tab="cart" onclick="switchTab('cart',this);return false;">🛒 장바구니</a>
-      </div>
-      <div class="cs-nav-group">
-        <div class="cs-nav-title">계정</div>
-        <a href="#" class="cs-nav-link" data-tab="profile" onclick="switchTab('profile',this);return false;">👤 개인정보 변경</a>
-        <a href="#" class="cs-nav-link" onclick="logout();return false;">🚪 로그아웃</a>
-      </div>
-      <div class="cs-nav-group">
-        <div class="cs-nav-title">고객지원</div>
-        <a href="customer.html?tab=notice" class="cs-nav-link">📢 공지사항</a>
-        <a href="customer.html?tab=faq"    class="cs-nav-link">❓ FAQ</a>
-      </div>
+    <!-- 1. 탭 메뉴 -->
+    <nav class="mp-tabs">
+      <a href="mypage.html" class="mp-tab active" id="tab-home">홈</a>
+      <a href="mypage.html?tab=favorite" class="mp-tab" id="tab-favorite">관심 교재</a>
+      <a href="mypage.html?tab=created" class="mp-tab" id="tab-created">내가 만든 자료</a>
+      <a href="mypage.html?tab=recent" class="mp-tab" id="tab-recent">최근 본 자료</a>
+      <a href="mypage.html?tab=orders" class="mp-tab" id="tab-orders">주문내역</a>
+      <a href="cart.html" class="mp-tab" id="tab-cart">장바구니</a>
+      <a href="mypage.html?tab=profile" class="mp-tab" id="tab-profile">개인정보변경</a>
     </nav>
 
-    <div class="cs-content">
-
-      <!-- 주문 내역 -->
-      <div id="panel-orders">
-        <h2 class="cs-content-title">📦 주문 내역</h2>
-        <div id="ordersContent"></div>
+    <!-- 2. 환영 메시지 -->
+    <div class="mp-welcome">
+      <div class="mp-welcome-left">
+        <span class="mp-badge">학교선생님</span>
+        <span class="mp-welcome-name" id="mp-user-name">김유진님 환영합니다.</span>
       </div>
+      <a href="mypage.html?tab=profile" class="mp-welcome-link">개인정보변경</a>
+    </div>
 
-      <!-- 관심 교재 -->
-      <div id="panel-wish" style="display:none;">
-        <h2 class="cs-content-title">❤️ 관심 교재</h2>
-        <div id="wishGrid" class="book-grid-4"></div>
-        <div id="wishEmpty" class="empty-state" style="display:none;border:1px solid var(--border);border-radius:var(--radius);">
-          <div class="empty-icon">🤍</div>
-          <div class="empty-title">관심 교재가 없습니다</div>
-          <div class="empty-desc">마음에 드는 교재에 하트를 눌러보세요</div>
-          <a href="books.html" style="display:inline-block;margin-top:16px;padding:11px 24px;background:var(--red);color:white;border-radius:var(--radius);font-weight:700;font-size:13px;">교재 둘러보기</a>
-        </div>
-      </div>
+    <!-- 3. 주문 요약 + 공지사항 -->
+    <div class="mp-row">
 
-      <!-- 장바구니 -->
-      <div id="panel-cart" style="display:none;">
-        <h2 class="cs-content-title">🛒 장바구니</h2>
-        <div id="cartItems"></div>
-        <div id="cartEmpty" class="empty-state" style="display:none;border:1px solid var(--border);border-radius:var(--radius);">
-          <div class="empty-icon">🛒</div>
-          <div class="empty-title">장바구니가 비어있습니다</div>
-          <div class="empty-desc">마음에 드는 교재를 담아보세요</div>
-          <a href="books.html" style="display:inline-block;margin-top:16px;padding:11px 24px;background:var(--red);color:white;border-radius:var(--radius);font-weight:700;font-size:13px;">교재 둘러보기</a>
-        </div>
-        <div id="cartSummary" style="display:none;margin-top:20px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-            <span style="font-size:14px;color:var(--muted);">총 상품금액</span>
-            <span style="font-size:16px;font-weight:800;" id="cartTotal">0원</span>
+      <!-- 좌: 주문/장바구니 요약 -->
+      <div class="mp-card">
+        <div class="mp-summary-body">
+          <div class="mp-point-row">
+            <span class="mp-point-label">내 방울</span>
+            <span class="mp-point-badge">320P</span>
+            <button class="mp-gift-btn" onclick="Toast.show('사은품몰 준비 중입니다.','info')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+              사은품몰
+            </button>
           </div>
-          <button onclick="location.href='checkout.html'" style="width:100%;background:var(--red);color:white;border:none;padding:14px;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer;">주문하기</button>
+          <div class="mp-summary-items">
+            <a href="mypage.html?tab=orders" class="mp-summary-item">
+              <span class="mp-summary-icon">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              </span>
+              <span class="mp-summary-label">주문내역</span>
+              <span class="mp-summary-count">내역 0건</span>
+            </a>
+            <a href="cart.html" class="mp-summary-item">
+              <span class="mp-summary-icon">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><polyline points="9 12 11 14 15 10"/></svg>
+              </span>
+              <span class="mp-summary-label">장바구니</span>
+              <span class="mp-summary-count">1건</span>
+            </a>
+          </div>
         </div>
       </div>
 
-      <!-- 개인정보 -->
-      <div id="panel-profile" style="display:none;">
-        <h2 class="cs-content-title">👤 개인정보 변경</h2>
-        <div style="max-width:460px;">
-          ${['이름','이메일','휴대폰'].map((f,i)=>`
-            <div style="margin-bottom:16px;">
-              <label style="display:block;font-size:12px;font-weight:700;color:var(--text2);margin-bottom:6px;">${f}</label>
-              <input type="${i===1?'email':i===2?'tel':'text'}" value="${['홍길동','user@email.com','010-1234-5678'][i]}"
-                style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:14px;font-family:inherit;outline:none;box-sizing:border-box;transition:border-color .2s;"
-                onfocus="this.style.borderColor='var(--red)'" onblur="this.style.borderColor='var(--border)'">
-            </div>`).join('')}
-          <div style="background:var(--bg);border-radius:var(--radius);padding:16px;margin-bottom:20px;border:1px solid var(--border);">
-            <div style="font-size:13px;font-weight:700;margin-bottom:12px;">비밀번호 변경</div>
-            ${['현재 비밀번호','새 비밀번호','새 비밀번호 확인'].map(p=>`
-              <input type="password" placeholder="${p}" style="width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:13px;margin-bottom:8px;box-sizing:border-box;outline:none;transition:border-color .2s;"
-                onfocus="this.style.borderColor='var(--red)'" onblur="this.style.borderColor='var(--border)'">`).join('')}
-          </div>
-          <button onclick="Toast.show('개인정보가 저장되었습니다.','success')" style="background:var(--red);color:white;border:none;padding:13px 30px;border-radius:var(--radius);font-size:14px;font-weight:700;cursor:pointer;">저장하기</button>
+      <!-- 우: 공지사항 -->
+      <div class="mp-card">
+        <div class="mp-card-header">
+          <span class="mp-card-title">공지사항</span>
+          <a href="customer.html?tab=notice" class="mp-card-plus">+</a>
         </div>
+        <ul class="mp-notice-list" id="mp-notice-list"></ul>
       </div>
 
     </div>
+
+    <!-- 4. 관심 교재 -->
+    <div class="mp-card mp-card-full">
+      <div class="mp-card-header">
+        <span class="mp-card-title">관심 교재</span>
+        <a href="mypage.html?tab=favorite" class="mp-card-plus">+</a>
+      </div>
+      <div id="mp-fav-area"></div>
+    </div>
+
+    <!-- 5. 최근 본 자료 + 내가 만든 자료 -->
+    <div class="mp-row">
+
+      <!-- 좌: 최근 본 자료 -->
+      <div class="mp-card">
+        <div class="mp-card-header">
+          <span class="mp-card-title">최근 본 자료</span>
+          <a href="mypage.html?tab=recent" class="mp-card-plus">+</a>
+        </div>
+        <ul class="mp-mat-list" id="mp-recent-list"></ul>
+      </div>
+
+      <!-- 우: 내가 만든 자료 -->
+      <div class="mp-card">
+        <div class="mp-card-header">
+          <span class="mp-card-title">내가 만든 자료</span>
+          <a href="mypage.html?tab=created" class="mp-card-plus">+</a>
+        </div>
+        <ul class="mp-mat-list" id="mp-created-list"></ul>
+      </div>
+
+    </div>
+
   </div>
 </div>
+<!-- ===================== /MYPAGE CONTENT ===================== -->
 
 <footer class="site-footer">
   <div class="footer-inner">
@@ -309,140 +388,126 @@
 <script src="js/main.js?v=5"></script>
 <script src="js/search-modal.js?v=1"></script>
 <script>
-// 로그인 가드 — 비로그인 시 로그인 페이지로 이동
+// ── 로그인 가드 ──
 if (localStorage.getItem('isLoggedIn') !== 'true') {
   localStorage.setItem('redirectAfterLogin', location.href);
   location.replace('login.html');
 }
 
-const user = JSON.parse(localStorage.getItem('booksam_user') || '{"name":"홍길동","email":"user@email.com"}');
-document.getElementById('userName').textContent  = user.name  || '홍길동';
-document.getElementById('userEmail').textContent = user.email || 'user@email.com';
-document.getElementById('wishCount').textContent = Wish.items.length;
+// ── 더미 데이터 ──
+const mypageUser = {
+  name: '김유진',
+  userType: '학교선생님',
+  point: 320,
+  orderCount: 0,
+  cartCount: 1
+};
 
-const MOCK_ORDERS = [
-  {no:'20260301-001', date:'2026.03.01', books:[1,6,11], status:'배송완료', statusColor:'var(--elem)', total:43000},
-  {no:'20260215-002', date:'2026.02.15', books:[7],      status:'배송완료', statusColor:'var(--elem)', total:16000},
-  {no:'20260110-003', date:'2026.01.10', books:[12,15],  status:'배송완료', statusColor:'var(--elem)', total:35000},
+const notices = [
+  { type:'공지', title:'개인정보처리방침 변경 안내', date:'2026-05-22' },
+  { type:'공지', title:'방울 포인트 서비스 종료 및 최종 소진 이벤트 안내', date:'2026-05-08' },
+  { type:'공지', title:'5/4(월) 서비스 점검 안내', date:'2026-04-30' }
 ];
 
-function renderOrders() {
-  const statuses = ['전체','배송준비','배송중','배송완료','취소/반품'];
-  const filterBtns = statuses.map((s,i) => `
-    <button onclick="filterOrders(this,'${s}')" style="padding:7px 14px;border-radius:4px;font-size:12px;font-weight:700;cursor:pointer;
-      background:${i===0?'var(--navy)':'var(--bg2)'};color:${i===0?'white':'var(--muted)'};
-      border:1px solid ${i===0?'var(--navy)':'var(--border)'};">${s}</button>`).join('');
+const recentMaterials = [
+  { type:'xlsx', title:'BOOSTER VOCA 중등기본 어휘리스트', bookTitle:'BOOSTER VOCA 중...' },
+  { type:'pdf',  title:'Reading Booster 영어독해 모의고사 15회 본책 PDF', bookTitle:'READING BOOSTE...' },
+  { type:'pdf',  title:'문제로 풀자 중학 영문법 L3 본문 (교사용)', bookTitle:'문제로 풀자 중학영문...' },
+  { type:'pdf',  title:'문제로 풀자 중학영문법 L2 본문_교사용 PDF', bookTitle:'문제로 풀자 중학영문...' },
+  { type:'pdf',  title:'문제로 풀자 중학영문법 레벨 1 본책(학생용) PDF', bookTitle:'문제로 풀자 중학영문...' }
+];
 
-  const orderCards = MOCK_ORDERS.map(order => {
-    const orderBooks = order.books.map(id => BOOKS.find(b => b.id === id)).filter(Boolean);
-    const booksHtml = orderBooks.map(b => `
-      <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--bg2);">
-        <div style="width:48px;height:64px;background:var(--bg2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:1px solid var(--border);">${CAT_INFO[b.cat].emoji}</div>
-        <div style="flex:1;">
-          <div style="font-size:13px;font-weight:700;margin-bottom:3px;">${b.title}</div>
-          <div style="font-size:12px;color:var(--muted);">${CAT_INFO[b.cat].label} · ${b.author}</div>
-        </div>
-        <div style="font-size:14px;font-weight:700;">${fmtPrice(b.price)}원</div>
-      </div>`).join('');
-    return `
-      <div style="border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;">
-        <div style="background:var(--bg);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);">
-          <div>
-            <span style="font-size:13px;font-weight:700;">주문번호 ${order.no}</span>
-            <span style="font-size:12px;color:var(--muted);margin-left:10px;">${order.date}</span>
-          </div>
-          <span style="font-size:12px;font-weight:700;color:${order.statusColor};">${order.status}</span>
-        </div>
-        ${booksHtml}
-        <div style="padding:12px 18px;display:flex;align-items:center;justify-content:space-between;">
-          <span style="font-size:12px;color:var(--muted);">총 결제금액</span>
-          <div style="display:flex;align-items:center;gap:10px;">
-            <span style="font-size:16px;font-weight:800;color:var(--navy);">${fmtPrice(order.total)}원</span>
-            <button onclick="Toast.show('리뷰 작성 페이지로 이동합니다.','success')" style="background:none;border:1px solid var(--border);padding:6px 12px;border-radius:4px;font-size:12px;cursor:pointer;font-weight:600;">리뷰 작성</button>
-            <button onclick="Toast.show('재구매 목록에 추가했습니다.','success')" style="background:var(--red);color:white;border:none;padding:6px 12px;border-radius:4px;font-size:12px;cursor:pointer;font-weight:700;">재구매</button>
-          </div>
-        </div>
-      </div>`;
-  }).join('');
+const createdMaterials = [
+  { title:'dd', bookTitle:'BOOSTER VOCA 중...' },
+  { title:'ee', bookTitle:'BOOSTER VOCA 중...' },
+  { title:'영단어', bookTitle:'BOOSTER VOCA 중...' },
+  { title:'영단어', bookTitle:'BOOSTER VOCA 중...' },
+  { title:'문장 형식_주어 완전자동사 보어 (S V C)', bookTitle:'' }
+];
 
-  document.getElementById('ordersContent').innerHTML =
-    `<div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;">${filterBtns}</div>${orderCards}`;
-}
+// ── 유저명 표시 ──
+const savedUser = JSON.parse(localStorage.getItem('booksam_user') || 'null');
+const displayName = (savedUser && savedUser.name) ? savedUser.name : mypageUser.name;
+document.getElementById('mp-user-name').textContent = displayName + '님 환영합니다.';
 
-function filterOrders(btn, status) {
-  document.querySelectorAll('#ordersContent button[onclick*="filterOrders"]').forEach(b => {
-    b.style.background = 'var(--bg2)'; b.style.color = 'var(--muted)'; b.style.borderColor = 'var(--border)';
-  });
-  btn.style.background = 'var(--navy)'; btn.style.color = 'white'; btn.style.borderColor = 'var(--navy)';
-}
+// ── 탭 활성화 ──
+(function() {
+  const param = new URLSearchParams(location.search).get('tab');
+  if (!param) return;
+  document.querySelectorAll('.mp-tab').forEach(t => t.classList.remove('active'));
+  const target = document.getElementById('tab-' + param);
+  if (target) target.classList.add('active');
+  if (['favorite','created','recent','orders','profile'].includes(param)) {
+    Toast.show('준비 중입니다.', 'info');
+  }
+})();
 
-function renderWish() {
-  const wishBooks = BOOKS.filter(b=>Wish.has(b.id));
-  const grid  = document.getElementById('wishGrid');
-  const empty = document.getElementById('wishEmpty');
-  if(wishBooks.length===0){ grid.style.display='none'; empty.style.display=''; }
-  else { grid.style.display=''; empty.style.display='none'; grid.innerHTML=wishBooks.map(renderBookCard).join(''); }
-}
+// ── 공지사항 렌더 ──
+(function() {
+  const ul = document.getElementById('mp-notice-list');
+  ul.innerHTML = notices.map(n => `
+    <li class="mp-notice-item">
+      <span class="mp-notice-badge">${n.type}</span>
+      <span class="mp-notice-title">${n.title}</span>
+      <span class="mp-notice-date">${n.date}</span>
+    </li>`).join('');
+})();
 
-function renderCart() {
-  const items = Cart.items;
-  const container = document.getElementById('cartItems');
-  const empty     = document.getElementById('cartEmpty');
-  const summary   = document.getElementById('cartSummary');
-  if (!items.length) {
-    container.innerHTML = '';
-    empty.style.display = '';
-    summary.style.display = 'none';
+// ── 관심 교재 렌더 ──
+(function() {
+  const favBooks = JSON.parse(localStorage.getItem('favoriteBooks') || '[]');
+  const area = document.getElementById('mp-fav-area');
+
+  if (!favBooks.length) {
+    area.innerHTML = '<div class="mp-empty"><span class="mp-empty-icon">ⓘ</span>관심교재가 없습니다.</div>';
     return;
   }
-  empty.style.display = 'none';
-  summary.style.display = '';
-  let total = 0;
-  container.innerHTML = items.map(item => {
-    const b = BOOKS.find(bk => bk.id === item.id);
-    if (!b) return '';
-    total += b.price * item.qty;
+
+  const cards = favBooks.map(b => {
+    const book = (typeof BOOKS !== 'undefined') ? BOOKS.find(bk => bk.id === b) : null;
+    if (!book) return '';
     return `
-      <div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);">
-        <div style="width:48px;height:64px;background:var(--bg2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;border:1px solid var(--border);">${CAT_INFO[b.cat].emoji}</div>
-        <div style="flex:1;">
-          <div style="font-size:13px;font-weight:700;margin-bottom:3px;">${b.title}</div>
-          <div style="font-size:12px;color:var(--muted);">${CAT_INFO[b.cat].label} · ${b.author}</div>
-          <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
-            <button onclick="Cart.updateQty(${b.id},${item.qty - 1});renderCart();" style="width:24px;height:24px;border:1px solid var(--border);border-radius:4px;background:white;cursor:pointer;font-size:14px;line-height:1;">−</button>
-            <span style="font-size:13px;font-weight:700;">${item.qty}</span>
-            <button onclick="Cart.updateQty(${b.id},${item.qty + 1});renderCart();" style="width:24px;height:24px;border:1px solid var(--border);border-radius:4px;background:white;cursor:pointer;font-size:14px;line-height:1;">+</button>
-          </div>
-        </div>
-        <div style="text-align:right;">
-          <div style="font-size:14px;font-weight:800;">${fmtPrice(b.price * item.qty)}원</div>
-          <button onclick="Cart.remove(${b.id});renderCart();" style="margin-top:6px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;">삭제</button>
-        </div>
-      </div>`;
-  }).join('');
-  document.getElementById('cartTotal').textContent = fmtPrice(total) + '원';
-}
+      <a href="book-detail.html?id=${book.id}" class="mp-fav-card">
+        <img class="mp-fav-img" src="${book.img || 'images/placeholder.png'}" alt="${book.title}" onerror="this.style.background='#f0f2f5'">
+        <div class="mp-fav-title">${book.title}</div>
+      </a>`;
+  }).filter(Boolean).join('');
 
-const initTab = getParam('tab') || 'orders';
-switchTab(initTab, document.querySelector(`[data-tab="${initTab}"]`));
+  area.innerHTML = cards
+    ? `<div class="mp-fav-grid">${cards}</div>`
+    : '<div class="mp-empty"><span class="mp-empty-icon">ⓘ</span>관심교재가 없습니다.</div>';
+})();
 
-function switchTab(tab, el) {
-  document.querySelectorAll('.cs-nav-link[data-tab]').forEach(l=>l.classList.remove('active'));
-  document.querySelectorAll('[id^="panel-"]').forEach(p=>p.style.display='none');
-  if(el) el.classList.add('active');
-  const panel = document.getElementById(`panel-${tab}`);
-  if(panel) panel.style.display='';
-  if(tab==='orders') renderOrders();
-  if(tab==='wish')   renderWish();
-  if(tab==='cart')   renderCart();
-}
+// ── 최근 본 자료 렌더 ──
+(function() {
+  const ul = document.getElementById('mp-recent-list');
+  const iconSvg = (label) => `
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`;
+  const dlSvg = `
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`;
 
-function logout() {
-  localStorage.removeItem('booksam_user');
-  Toast.show('로그아웃되었습니다.');
-  setTimeout(()=>location.href='index.html',1000);
-}
+  ul.innerHTML = recentMaterials.map(m => `
+    <li class="mp-mat-item">
+      <span class="mp-mat-badge ${m.type}">${m.type}</span>
+      <span class="mp-mat-title">${m.title}</span>
+      <span class="mp-mat-source">${m.bookTitle}</span>
+      <span class="mp-mat-actions">
+        <button class="mp-mat-btn" title="미리보기" onclick="Toast.show('준비 중입니다.','info')">${iconSvg()}</button>
+        <button class="mp-mat-btn" title="다운로드" onclick="Toast.show('준비 중입니다.','info')">${dlSvg}</button>
+      </span>
+    </li>`).join('');
+})();
+
+// ── 내가 만든 자료 렌더 ──
+(function() {
+  const ul = document.getElementById('mp-created-list');
+  ul.innerHTML = createdMaterials.map(m => `
+    <li class="mp-mat-item">
+      <span class="mp-mat-badge created">자료</span>
+      <span class="mp-mat-title">${m.title}</span>
+      <span class="mp-mat-source">${m.bookTitle}</span>
+    </li>`).join('');
+})();
 </script>
 </body>
 </html>
-
