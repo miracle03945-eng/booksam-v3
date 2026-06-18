@@ -389,10 +389,10 @@ body.hero-page .topbar-ytutpr{color:white;background:rgba(255,255,255,.26);borde
 
 /* 서브링크 */
 .mega-col .mega-sub-link{
-  font-size:15px;color:#333;text-decoration:none;
+  font-size:13px;color:#333;text-decoration:none;
   padding:7px 0 7px 14px;display:block;font-weight:400;
   transition:color .12s,padding-left .1s;
-  position:relative;
+  position:relative;white-space:nowrap;
 }
 .mega-col .mega-sub-link::before{
   content:'';position:absolute;left:3px;top:50%;transform:translateY(-50%);
