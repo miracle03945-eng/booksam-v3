@@ -131,12 +131,9 @@ img{max-width:100%;display:block;}
 .util-logo .logo-mark{font-size:24px;font-weight:900;color:var(--red);letter-spacing:-1px;}
 .util-logo .logo-badge{background:var(--red);color:white;font-size:12px;font-weight:700;padding:2px 8px;border-radius:20px;}
 /* ── YBM 브랜드 로고 + 사이트 토글 ── */
-.ybm-brand{display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.ybm-logo{display:flex;align-items:center;gap:7px;text-decoration:none;}
+.ybm-brand{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.ybm-logo{display:flex;align-items:center;text-decoration:none;}
 .ybm-mark{flex-shrink:0;display:block;}
-.ybm-text{display:flex;flex-direction:column;line-height:1.1;}
-.ybm-sub{font-size:9px;color:#888;font-weight:600;letter-spacing:.5px;text-transform:uppercase;}
-.ybm-main{font-size:17px;font-weight:900;color:#1a2e44;letter-spacing:-0.5px;}
 .site-toggle{display:flex;align-items:center;border:1.5px solid #ddd;border-radius:20px;padding:2px;flex-shrink:0;gap:1px;}
 .stg-btn{padding:4px 11px;font-size:11px;font-weight:700;color:#999;background:transparent;border:none;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap;border-radius:16px;line-height:1;}
 .stg-btn.active{background:#1a2e44;color:#fff;}
