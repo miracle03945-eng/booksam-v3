@@ -2909,6 +2909,7 @@ function renderMaterials(list, page) {
       <div class="mat-col-res">
         <span class="mat-file-badge mat-file-${ft.cls}">${ft.label}</span>
         <span class="mat-res-name">${resName}</span>
+        ${r.login ? '<span class="mat-login-required">🔒 로그인 필요</span>' : ''}
       </div>
       <div class="mat-col-preview">
         <button class="mat-icon-btn" onclick="showToast('미리보기 서비스 준비 중입니다.')">

@@ -1017,6 +1017,7 @@ body.hero-page .topbar-ytutpr{color:white;background:rgba(255,255,255,.26);borde
 .mat-file-zip{background:var(--navy);color:white;}
 .mat-file-pdf{background:#c0392b;color:white;}
 .mat-res-name{font-size:13px;color:var(--text);line-height:1.4;}
+.mat-login-required{display:inline-block;font-size:11px;font-weight:700;color:#c0392b;background:#fff0f0;border:1px solid #fbb;border-radius:4px;padding:1px 6px;margin-left:6px;white-space:nowrap;}
 /* 자료유형 필터 바 */
 .mat-type-filter{display:flex;align-items:center;gap:12px;padding:12px 0 14px;border-bottom:1px solid var(--border);margin-bottom:4px;flex-wrap:wrap;}
 .mat-type-label{font-size:13px;font-weight:700;color:#333;white-space:nowrap;min-width:48px;}
