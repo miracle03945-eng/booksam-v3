@@ -74,6 +74,16 @@ img{max-width:100%;display:block;}
 .util-topbar .util-link{font-size:13px;color:#666;padding:0 10px;border-right:1px solid #e0e0e0;text-decoration:none;white-space:nowrap;transition:color .15s;line-height:1;}
 .util-topbar .util-link:last-child{border-right:none;}
 .util-topbar .util-link:hover{color:var(--red);}
+.util-topbar{display:none!important;}
+
+/* header util links */
+.header-util-links{display:none;} /* hidden on mobile */
+@media(min-width:769px){
+  .header-util-links{display:flex;align-items:center;position:absolute;right:40px;top:50%;transform:translateY(-50%);}
+  .header-util-links .util-link{font-size:13px;color:#666;padding:0 10px;border-right:1px solid #e0e0e0;text-decoration:none;white-space:nowrap;transition:color .15s;line-height:1;}
+  .header-util-links .util-link:last-child{border-right:none;padding-right:0;}
+  .header-util-links .util-link:hover{color:var(--red);}
+}
 
 /* 신규 GNB 요소: 모바일 표시 설정 */
 .topbar-brand-link{display:none;}
